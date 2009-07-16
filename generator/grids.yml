@@ -1,0 +1,14 @@
+grid_1:
+   width: 760
+   cells: 20
+   margin: 0
+   
+grid_2:
+   width: 760
+   cells: 38
+   margin: 0
+   
+grid_3:
+   width: 760
+   cells: 76
+   margin: 0
