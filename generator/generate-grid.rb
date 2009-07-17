@@ -21,6 +21,7 @@ grids.each do |grid_name, value|
   # global
   key  = "\tdisplay: inline;\n"
   key << "\tfloat: left;\n"
+  key << "\tposition: relative;\n"
   key << "\tmargin-left: " + margin.to_s + "px;\n"
   key << "\tmargin-right: " + margin.to_s + "px;\n"
   for i in 1..cells
@@ -28,16 +29,6 @@ grids.each do |grid_name, value|
     classes[key] = [] if !classes.has_key?(key)
     classes[key].push(val)
   end
-
-  # alpha / omega
-  key = "\tmargin-left: 0;\n"
-  val = ".alpha"
-  classes[key] = [] if !classes.has_key?(key)
-  classes[key].push(val)
-  key = "\tmargin-right: 0;\n"
-  val = ".omega"
-  classes[key] = [] if !classes.has_key?(key)
-  classes[key].push(val)
   
   # grid_*
   for i in 1..cells
@@ -63,54 +54,98 @@ grids.each do |grid_name, value|
       classes[key].push(val)
   end
   
+  # push_*
+  for i in 1..(cells-1)
+    key = "\tleft: " + ((cell_size) * i).to_s + "px;\n"
+    val = ".container_" + cells.to_s + " .push_" + i.to_s
+      classes[key] = [] if !classes.has_key?(key)
+      classes[key].push(val)
+  end
+  
+  # pull_*
+  for i in 1..(cells-1)
+    key = "\tleft: -" + ((cell_size) * i).to_s + "px;\n"
+    val = ".container_" + cells.to_s + " .pull_" + i.to_s
+      classes[key] = [] if !classes.has_key?(key)
+      classes[key].push(val)
+  end
+  
 end
 
-# clear
-key  = "\tclear: both;\n"
-key << "\tdisplay: block;\n"
-key << "\toverflow: hidden;\n"
-key << "\tvisibility: hidden;\n"
-key << "\twidth: 0;\n"
-key << "\theight: 0;\n"
-val  = ".clear"
-classes[key] = [] if !classes.has_key?(key)
-classes[key].push(val)
-
-# clearfix
-key  = "\tclear: both;\n"
-key << "\tcontent: '.';\n"
-key << "\tdisplay: block;\n"
-key << "\tvisibility: hidden;\n"
-key << "\theight: 0;\n"
-val  = ".clearfix:after"
-classes[key] = [] if !classes.has_key?(key)
-classes[key].push(val)
-
-key = "\tdisplay: inline-block;\n"
-val = ".clearfix"
-classes[key] = [] if !classes.has_key?(key)
-classes[key].push(val)
-
-key = "\theight: 1%;\n"
-val = "* html .clearfix"
-classes[key] = [] if !classes.has_key?(key)
-classes[key].push(val)
-
-key = "\tdisplay: block;\n"
-val = ".clearfix"
-classes[key] = [] if !classes.has_key?(key)
-classes[key].push(val)
 
 
 # generate output
-output = ""
-classes.sort
+output = <<-HTML
 
-classes.sort{|a,b| a[0]<=>b[0]}.each do |key, value|
+/*
+  760 Grid System ~ For Facebook Applications.
+  -- Based on the 960 Grid System ~ http://960.gs/
+ 
+  Licensed under MIT.
+*/
+
+/* `Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+  margin-left: 0;
+}
+ 
+.omega {
+  margin-right: 0;
+}
+
+/* `Containers & Grids
+----------------------------------------------------------------------------------------------------*/
+
+HTML
+
+classes.sort{|a,b| a[1]<=>b[1]}.each do |key, value|
   output << value.uniq.join(",\n") + " {\n"
   output << key
   output << "}\n"
   output << "\n"
 end
+
+output << <<-HTML
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+ 
+/* http://sonspring.com/journal/clearing-floats */
+ 
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+ 
+/* http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack */
+ 
+.clearfix:after {
+  clear: both;
+  content: ' ';
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+ 
+.clearfix {
+  display: inline-block;
+}
+ 
+* html .clearfix {
+  height: 1%;
+}
+ 
+.clearfix {
+  display: block;
+}
+HTML
 
 puts output
