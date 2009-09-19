@@ -9,11 +9,11 @@
 ----------------------------------------------------------------------------------------------------*/
 
 body {
-	font: 13px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font: 13px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
 }
 
 a:focus {
-	outline: 1px dotted invert;
+	outline: 1px dotted;
 }
 
 hr {
