@@ -6,7 +6,7 @@ It was instantly obvious it would be easier creating a generator for the grid sy
 
 ## Grid Usage
 
-760 works exactly the same way as [960.gs][1]. The only difference is that instead of 12 and 16 columns, 760 has 20, 38, and 76 column layouts, and due to how thin the columns are, they don't have any margins by default.
+760 works exactly the same way as [960.gs][1]. The only difference is that instead of 12 and 16 columns, 760.gs has 20, 38, and 76 column layouts, and due to how thin the columns are, they don't have any margins by default.
 
 ## Generator Usage
 
